@@ -1,6 +1,5 @@
 package Controlador;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +13,7 @@ import Repositorio.UsuarioRepositorio;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 
 @RestController
 @RequestMapping("/Usuarios")
@@ -22,7 +22,28 @@ public class UsuarioControlador {
 	@Autowired
 	private UsuarioRepositorio usuarioRepositorio;
 	
-	@GetMapping
+	@GetMapping("")
+	public String viewHomePage()
+	{
+		return "index";
+	}
+	
+	@GetMapping("/Registro")
+	public String Regsitro(Model modelo)
+	{
+		modelo.addAttribute("Usuarios", new Modelos.Usuarios());
+		return "Formulario_Registro";
+	}
+
+	@PostMapping("/Proceso_Registro")
+	public String insertarRegistro(Modelos.Usuarios usuario)
+	{
+		usuarioRepositorio.save(usuario);
+
+		return "Registro Exitoso";
+	}
+	
+	@GetMapping()
 	public List<Modelos.Usuarios> Usuarios()
 	{
 		return (List<Modelos.Usuarios>) usuarioRepositorio.findAll();
@@ -39,9 +60,4 @@ public class UsuarioControlador {
 		usuarioRepositorio.save(usuario);
 	}
 	
-	@DeleteMapping(value="/{id}")
-	public void eliminar(@PathVariable("id") Integer id)
-	{
-		usuarioRepositorio.deleteById(id);
-	}
 }

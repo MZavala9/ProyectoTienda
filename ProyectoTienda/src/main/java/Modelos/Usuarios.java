@@ -2,28 +2,42 @@ package Modelos;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="tbl_Usuarios", catalog="proyecto", schema="")
+//@Table(name="tbl_Usuarios", catalog="proyecto", schema="")
+@Table(name="tbl_Usuarios")
 public class Usuarios {
 
 	@Id
-	@Column
-	private Integer Usu_id;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long Usu_id;
 	
-	@Column
+	@Column(nullable=false, unique=true, length=45)
+	private String Usu_email;
+	
+	@Column(nullable=false, length=45)
 	private String Usu_nombre;
 	
-	@Column
+	@Column(nullable=false, length=64)
 	private String Usu_pass;
 
-	public Integer getUsu_id() {
+	public Long getUsu_id() {
 		return Usu_id;
 	}
 
-	public void setUsu_id(Integer usu_id) {
+	public String getUsu_email() {
+		return Usu_email;
+	}
+
+	public void setUsu_email(String usu_email) {
+		Usu_email = usu_email;
+	}
+
+	public void setUsu_id(Long usu_id) {
 		Usu_id = usu_id;
 	}
 
